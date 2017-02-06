@@ -1,3 +1,24 @@
+###This a modified a version to show [multiprogress](https://github.com/ClementPinard/multiprogress) usage
+
+you need to install multiprogress module using
+```
+luarocks install xlua #if needed
+luarocks install https://github.com/ClementPinard/multiprogress/raw/master/multiprogress-1.0-0.rockspec
+```
+or
+```
+luarocks install xlua
+git clone git://github.com/ClementPinard/multiprogress
+cd multiprogress
+luarocks make
+```
+
+Result on console :
+![img]()
+
+
+###Original README below
+
 ##Training an Object Classifier in Torch-7 on multiple GPUs over [ImageNet](http://image-net.org/download-images)
 
 In this concise example (1200 lines including a general-purpose and highly scalable data loader for images), we showcase:

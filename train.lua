@@ -7,6 +7,7 @@
 --  of patent rights can be found in the PATENTS file in the same directory.
 --
 require 'optim'
+local c = require 'trepl.colorize'
 
 --[[
    1. Setup SGD optimization state and learning rate schedule
@@ -70,9 +71,8 @@ local top1_epoch, loss_epoch
 -- 3. train - this function handles the high-level training loop,
 --            i.e. load data, train model, save model and state to disk
 function train()
-   print('==> doing epoch on training data:')
-   print("==> online epoch # " .. epoch)
-
+   mp.info(c.blue"==>".. " training online epoch # " .. c.blue(''..epoch),4)
+   if epoch>1 then mp.erase(6) end
    local params, newRegime = paramsForEpoch(epoch)
    if newRegime then
       optimState = {
@@ -115,11 +115,12 @@ function train()
       ['% top1 accuracy (train set)'] = top1_epoch,
       ['avg loss (train set)'] = loss_epoch
    }
-   print(string.format('Epoch: [%d][TRAINING SUMMARY] Total Time(s): %.2f\t'
+   
+   mp.erase(6)
+   mp.info(string.format('Epoch: [%d][TRAINING SUMMARY] Total Time(s): %.2f\t'
                           .. 'average loss (per batch): %.2f \t '
                           .. 'accuracy(%%):\t top-1 %.2f\t',
-                       epoch, tm:time().real, loss_epoch, top1_epoch))
-   print('\n')
+                       epoch, tm:time().real, loss_epoch, top1_epoch),6)
 
    -- save model
    collectgarbage()
@@ -178,9 +179,10 @@ function trainBatch(inputsCPU, labelsCPU)
       top1 = top1 * 100 / opt.batchSize;
    end
    -- Calculate top-1 error, and print information
-   print(('Epoch: [%d][%d/%d]\tTime %.3f Err %.4f Top1-%%: %.2f LR %.0e DataLoadingTime %.3f'):format(
-          epoch, batchNumber, opt.epochSize, timer:time().real, err, top1,
-          optimState.learningRate, dataLoadingTime))
+   mp.progress(batchNumber,opt.epochSize,5)
+   mp.info(('Time %.3f Err %.4f Top1-%%: %.2f LR %.0e DataLoadingTime %.3f'):format(
+          timer:time().real, err, top1,
+          optimState.learningRate, dataLoadingTime),6)
 
    dataTimer:reset()
 end

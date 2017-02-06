@@ -12,6 +12,8 @@ require 'paths'
 require 'xlua'
 require 'optim'
 require 'nn'
+mp = require 'multiprogress'
+local c = require 'trepl.colorize'
 
 torch.setdefaulttensortype('torch.FloatTensor')
 
@@ -31,7 +33,8 @@ print(opt)
 cutorch.setDevice(opt.GPU) -- by default, use GPU 1
 torch.manualSeed(opt.manualSeed)
 
-print('Saving everything to: ' .. opt.save)
+print('Begin training')
+print('Saving everything to: ' .. c.blue(opt.save))
 os.execute('mkdir -p ' .. opt.save)
 
 paths.dofile('data.lua')
@@ -41,6 +44,7 @@ paths.dofile('test.lua')
 epoch = opt.epochNumber
 
 for i=1,opt.nEpochs do
+   mp.progress(epoch, opt.nEpochs+opt.epochNumber, 1)
    train()
    test()
    epoch = epoch + 1
