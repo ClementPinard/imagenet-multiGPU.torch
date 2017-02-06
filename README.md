@@ -14,7 +14,7 @@ luarocks make
 ```
 
 Result on console :
-![img]()
+![img](https://github.com/ClementPinard/imagenet-multiGPU.torch/blob/master/images/multiprogress.png)
 
 
 ###Original README below
