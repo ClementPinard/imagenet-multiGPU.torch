@@ -26,7 +26,6 @@ function test()
 
    top1_center = 0
    loss = 0
-   nTest = 200
    for i = 1, math.ceil(nTest/opt.batchSize) do -- nTest is set in 1_data.lua
       local indexStart = (i-1) * opt.batchSize + 1
       local indexEnd = math.min(nTest, indexStart + opt.batchSize - 1)
